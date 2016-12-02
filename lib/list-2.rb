@@ -7,27 +7,15 @@ class List
   def initialize(options={} )
     @options = options
     @head = nil
-    @size = 0
   end
 
   # add object to list based on list type
   def add(object)
-    node = Node.new(object)
-    if @size == 0
-      @head = node
-    else
-      current = @head
-      while !current.next.nil?
-        current = current.next
-      end
-      current.next = node
+    current = @head ? @head : Node.new(object, nil)
+    while current.next != nil
+      current = current.next
     end
-    @size += 1
-    return node
-  end
-
-  def head
-    @head
+    current.next = Node.new(object, nil)
   end
 
   # enumerable mixin method
@@ -37,20 +25,28 @@ class List
   # returns all elements in list
   def elements
     ary = []
-    current_node = @head
-    until current_node == nil
-      ary << current_node.object
-      current_node = current_node.next
+    current = @head
+    while current.next != nil
+      ary << current.object
+      current = current.next
     end
-    ary
+    return ary << current.object
   end
 
+  # returns true if the list is empty, false otherwise
   def empty?
-    @size == 0
+    true
   end
 
+  # returns length of list
   def length
-    @size
+    count = 0
+    current = @head.nil? ? (return 0) : @head
+    while current.next != nil
+      count += 1
+      current = current.next
+    end
+    return count
   end
 
   # returns true if object is a member of the list, false otherwise
