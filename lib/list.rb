@@ -13,17 +13,21 @@ class List
   # add object to list based on list type
   def add(object)
     node = Node.new(object)
-    if @size == 0
-      @head = node
-    else
-      current = @head
-      while !current.next.nil?
-        current = current.next
-      end
-      current.next = node
-    end
+    @size == 0 ? add_first_node(node) : add_next_node(node)
     @size += 1
     return node
+  end
+
+  def add_first_node(node)
+    @head = node
+  end
+
+  def add_next_node(node)
+    current = @head
+    while !current.next.nil?
+      current = current.next
+    end
+    current.next = node
   end
 
   def head
@@ -32,17 +36,22 @@ class List
 
   # enumerable mixin method
   def each
+    if block_given?
+      self.elements.each { |e| yield(e) }
+    else
+      self.elements
+    end
   end
 
   # returns all elements in list
   def elements
     ary = []
-    current_node = @head
-    until current_node == nil
-      ary << current_node.object
-      current_node = current_node.next
+    current = @head
+    until current == nil
+      ary << current.object
+      current = current.next
     end
-    ary
+    @options[:sorted] == 1 ? ary.reverse : ary
   end
 
   def empty?
@@ -55,11 +64,16 @@ class List
 
   # returns true if object is a member of the list, false otherwise
   def member?(object)
+    elements.include?(object)
   end
 
   # returns and removes the first element of the list; or nil if the list is empty
   def pop
-    nil
+    return nil if @head.nil?
+    first = @head
+    next_node = first.next
+    @head = next_node
+    return first.object
   end
 
 end
