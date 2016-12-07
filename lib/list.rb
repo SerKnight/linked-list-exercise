@@ -13,16 +13,12 @@ class List
   # add object to list based on list type
   def add(object)
     node = Node.new(object)
-    @size == 0 ? add_first_node(node) : add_next_node(node)
+    @size == 0 ? @head = node : create(node)
     @size += 1
     return node
   end
 
-  def add_first_node(node)
-    @head = node
-  end
-
-  def add_next_node(node)
+  def create(node)
     current = @head
     while !current.next.nil?
       current = current.next

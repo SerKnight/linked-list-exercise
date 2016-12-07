@@ -7,5 +7,4 @@ class Node
     @object = object
     @next = next_node
   end
-
 end

@@ -46,7 +46,7 @@ describe List do
         list.length.must_equal 3
         
         # list.elements.must_equal(['bar', 'baz', 'foo'])
-        # Was (sorted: 1) meant to reverse whole linked list?
+        # Was (sorted: 1) meant to reverse list fill order?
         list.elements.must_equal(['baz', 'bar', 'foo'])
       end
     end
